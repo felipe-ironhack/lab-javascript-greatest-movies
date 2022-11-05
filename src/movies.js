@@ -17,7 +17,6 @@ function uniquifyDirector(directorsArray) {
 		}
 	}
 
-
   return uniqueDirector
 }
 
@@ -26,17 +25,11 @@ function uniquifyDirector(directorsArray) {
 function findDrama(moviesArray) {
 	const dramaFilter = moviesArray.filter(movie => movie.genre.includes('Drama'));
 
-	console.log(dramaFilter);
-
 	return dramaFilter;
 }
 
 function howManyMovies(moviesArray) {
-	const filteredMovies = moviesArray.filter(movie => {
-		if (movie.director === 'Steven Spielberg') {
-			return true;
-		}
-	});
+	const filteredMovies = moviesArray.filter(movie => movie.director === 'Steven Spielberg');
 
 	const dramaMovies = findDrama(filteredMovies);
 
@@ -105,8 +98,55 @@ function orderAlphabetically(moviesArray) {
 }
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes(moviesArray) {}
+function turnHoursToMinutes(moviesArray) {
+	const moviesCopy = JSON.parse(JSON.stringify(moviesArray))
+
+	for (const movie of moviesCopy) {
+		const timeArray = movie.duration.split(' ')
+
+		let minutes = Number(timeArray[0].slice(0, 1) * 60)
+
+		if (timeArray[1]){
+			const minutesCheck = Number(timeArray[1].split('m')[0])
+			minutes += minutesCheck
+		}
+
+		movie.duration = minutes
+	}
+
+	return moviesCopy
+
+}
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
-function bestYearAvg(moviesArray) {}
+function bestYearAvg(moviesArray) {
+	if (!moviesArray.length) return null
+
+	const moviesByYear = {}
+
+	moviesArray.forEach(movie => {
+		if (!moviesByYear.hasOwnProperty(movie.year)){
+			moviesByYear[movie.year] = []
+		} 
+		moviesByYear[movie.year].push(movie)
+	})
+
+	const scoresByYear = []
+
+	for (const year in moviesByYear) {
+		const yearScore = {
+			year,
+			score: scoresAverage(moviesByYear[year])
+		}
+		scoresByYear.push(yearScore)
+	}
+
+	scoresByYear.sort((a, b) => b.score - a.score)
+
+	const bestYear = scoresByYear[0]
+
+	const winner = `The best year was ${bestYear.year} with an average score of ${bestYear.score}`
+
+	return winner
+}
 
