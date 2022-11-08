@@ -2,14 +2,14 @@
 // _Bonus_: It seems some of the directors had directed multiple movies so they will pop up multiple times in the array of directors.
 // How could you "clean" a bit this array and make it unified (without duplicates)?
 
-function getAllDirectors(moviesArray) {
+const getAllDirectors = moviesArray => {
 	const onlyDirectors = moviesArray.map(movie => movie.director);
 
-	return onlyDirectors;
-}
+	return uniquifyDirector(onlyDirectors);
+};
 
 function uniquifyDirector(directorsArray) {
-  const uniqueDirector = [];
+	const uniqueDirector = [];
 
 	for (let director of directorsArray) {
 		if (uniqueDirector.indexOf(director) === -1) {
@@ -17,7 +17,7 @@ function uniquifyDirector(directorsArray) {
 		}
 	}
 
-  return uniqueDirector
+	return uniqueDirector;
 }
 
 // Iteration 2: Steven Spielberg. The best? - How many drama movies did STEVEN SPIELBERG direct?
@@ -56,97 +56,93 @@ function scoresAverage(moviesArray) {
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
 function dramaMoviesScore(moviesArray) {
-  const dramaMovies = findDrama(moviesArray)
+	const dramaMovies = findDrama(moviesArray);
 
-  const avgScore = scoresAverage(dramaMovies)
+	const avgScore = scoresAverage(dramaMovies);
 
-  return avgScore
-
+	return avgScore;
 }
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
 function orderByYear(moviesArray) {
-  const sortedArray = moviesArray.slice()
+	const sortedArray = moviesArray.slice();
 
-  sortedArray.sort((movieA, movieB) => {
-    if (movieA.year > movieB.year) {
-      return 1
-    }
-    
-    if (movieA.year < movieB.year) {
-      return -1
-    }
+	sortedArray.sort((movieA, movieB) => {
+		if (movieA.year > movieB.year) {
+			return 1;
+		}
 
-    if (movieA.year === movieB.year) {
-      return movieA.title.localeCompare(movieB.title)
-    }
-  })
+		if (movieA.year < movieB.year) {
+			return -1;
+		}
 
-  return sortedArray
+		if (movieA.year === movieB.year) {
+			return movieA.title.localeCompare(movieB.title);
+		}
+	});
+
+	return sortedArray;
 }
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
 function orderAlphabetically(moviesArray) {
-  const moviesCopy = [...moviesArray]
+	const moviesCopy = [...moviesArray];
 
-  moviesCopy.sort((movieA, movieB) => movieA.title.localeCompare(movieB.title))
+	moviesCopy.sort((movieA, movieB) => movieA.title.localeCompare(movieB.title));
 
-  const onlyTitles = moviesCopy.map(movie => movie.title)
+	const onlyTitles = moviesCopy.map(movie => movie.title);
 
-  return onlyTitles.slice(0, 20)
-  
+	return onlyTitles.slice(0, 20);
 }
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
 function turnHoursToMinutes(moviesArray) {
-	const moviesCopy = JSON.parse(JSON.stringify(moviesArray))
+	const moviesCopy = JSON.parse(JSON.stringify(moviesArray));
 
 	for (const movie of moviesCopy) {
-		const timeArray = movie.duration.split(' ')
+		const timeArray = movie.duration.split(' ');
 
-		let minutes = Number(timeArray[0].slice(0, 1) * 60)
+		let minutes = Number(timeArray[0].slice(0, 1) * 60);
 
-		if (timeArray[1]){
-			const minutesCheck = Number(timeArray[1].split('m')[0])
-			minutes += minutesCheck
+		if (timeArray[1]) {
+			const minutesCheck = Number(timeArray[1].split('m')[0]);
+			minutes += minutesCheck;
 		}
 
-		movie.duration = minutes
+		movie.duration = minutes;
 	}
 
-	return moviesCopy
-
+	return moviesCopy;
 }
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
 function bestYearAvg(moviesArray) {
-	if (!moviesArray.length) return null
+	if (!moviesArray.length) return null;
 
-	const moviesByYear = {}
+	const moviesByYear = {};
 
 	moviesArray.forEach(movie => {
-		if (!moviesByYear.hasOwnProperty(movie.year)){
-			moviesByYear[movie.year] = []
-		} 
-		moviesByYear[movie.year].push(movie)
-	})
+		if (!moviesByYear.hasOwnProperty(movie.year)) {
+			moviesByYear[movie.year] = [];
+		}
+		moviesByYear[movie.year].push(movie);
+	});
 
-	const scoresByYear = []
+	const scoresByYear = [];
 
 	for (const year in moviesByYear) {
 		const yearScore = {
 			year,
-			score: scoresAverage(moviesByYear[year])
-		}
-		scoresByYear.push(yearScore)
+			score: scoresAverage(moviesByYear[year]),
+		};
+		scoresByYear.push(yearScore);
 	}
 
-	scoresByYear.sort((a, b) => b.score - a.score)
+	scoresByYear.sort((a, b) => b.score - a.score);
 
-	const bestYear = scoresByYear[0]
+	const bestYear = scoresByYear[0];
 
-	const winner = `The best year was ${bestYear.year} with an average score of ${bestYear.score}`
+	const winner = `The best year was ${bestYear.year} with an average score of ${bestYear.score}`;
 
-	return winner
+	return winner;
 }
-
