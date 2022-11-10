@@ -2,7 +2,7 @@
 // _Bonus_: It seems some of the directors had directed multiple movies so they will pop up multiple times in the array of directors.
 // How could you "clean" a bit this array and make it unified (without duplicates)?
 
-const getAllDirectors = moviesArray => {
+function getAllDirectors(moviesArray) {
 	const onlyDirectors = moviesArray.map(movie => movie.director);
 
 	return uniquifyDirector(onlyDirectors);
@@ -90,9 +90,9 @@ function orderAlphabetically(moviesArray) {
 
 	moviesCopy.sort((movieA, movieB) => movieA.title.localeCompare(movieB.title));
 
-	const onlyTitles = moviesCopy.map(movie => movie.title);
+	const justTitles = moviesCopy.map(movie => movie.title);
 
-	return onlyTitles.slice(0, 20);
+	return justTitles.slice(0, 20);
 }
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
