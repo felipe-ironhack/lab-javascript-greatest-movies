@@ -34,6 +34,7 @@ const scoresAverage = moviesArray => {
 	const decimals = parseFloat((reduced / moviesArray.length).toFixed(2));
 
 	return decimals;
+  
 };
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
